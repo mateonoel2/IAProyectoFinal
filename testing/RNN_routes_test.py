@@ -19,9 +19,9 @@ if __name__ == '__main__':
     try:
         data = pd.read_parquet("../dataset") 
 
-        scaler = pickle.load(open('../scalers/skl_subroutes.pkl', 'rb'))
+        scaler = pickle.load(open('../scalers/skl_routes.pkl', 'rb'))
         
-        features = data[["day_of_week", "exit_time", "distance", "exit_stop", "target_stop"]]
+        features = data[["day_of_week", "first_time", "total_distance", "first_stop", "target_stop"]]
 
         print(features)
 
@@ -34,7 +34,7 @@ if __name__ == '__main__':
         X_train = np.reshape(X_train, (X_train.shape[0], 1, X_train.shape[1]))
         X_test = np.reshape(X_test, (X_test.shape[0], 1, X_test.shape[1]))
 
-        model = load_model('../models/RNN_short_27.h5')
+        model = load_model('../models/RNN_90.h5')
      
         y_pred = model.predict(X_test)
         r2 = r2_score(y_test, y_pred)

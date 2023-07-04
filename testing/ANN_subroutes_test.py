@@ -58,19 +58,44 @@ if __name__ == '__main__':
         #unscale x:
         X_test = scaler.inverse_transform(X_test)
 
-        # Plotting predicted time
-        plt.scatter(X_test[:, 1], y_pred, c='b', label='Predicted Time', s=10, alpha=0.5)
+        unique_x = np.unique(X_test[:, 2])
+        averages = []
+        for x in unique_x:
+            indices = np.where(X_test[:, 2] == x)
+            avg_y_pred = np.mean(y_pred[indices])
+            avg_y_test = np.mean(y_test[indices])
+            averages.append((x, avg_y_pred, avg_y_test))
 
-        # Plotting actual time
-        plt.scatter(X_test[:, 1], y_test, c='r', label='Actual Time', s=1, alpha=0.5)
+        averages = np.array(averages)
 
-        plt.xlabel('Exit Time')
+        # Plotting the averaged points
+        plt.scatter(averages[:, 0], averages[:, 1], c='b', label='Average Predicted Time', s=10, alpha=0.5)
+        plt.scatter(averages[:, 0], averages[:, 2], c='r', label='Average Actual Time', s=5, alpha=0.5)
+
+        # Adding lines connecting the points
+        for i in range(len(averages)):
+            x = averages[i, 0]
+            y_pred = averages[i, 1]
+            y_test = averages[i, 2]
+            plt.plot([x, x], [y_pred, y_test], c='black', linewidth=0.5)
+
+        plt.xlabel('Distance')
         plt.ylabel('Arrive Time')
         plt.legend()
-        plt.title('Exot time vs Predicted and Actual Arrive Time')
+        plt.title('Distance vs Average Predicted and Actual Arrive Time')
 
-        # Showing only one dot per plot
-        plt.legend(scatterpoints=1, frameon=False, labelspacing=1)
+        plt.show()
+        plt.clf()
+       
+        absolute_difference = np.abs(averages[:, 1] - averages[:, 2])
+
+        # Plotting the averaged points
+        plt.scatter(averages[:, 0], absolute_difference, c='g', label='Absolute Difference', s=10, alpha=0.5)
+        plt.xlabel('Distance')
+        plt.ylabel('Absolute Difference')
+        plt.legend()
+        plt.title('Distance vs Absolute Difference between Average Predicted and Actual Value')
+
         plt.show()
 
     except Exception as e:

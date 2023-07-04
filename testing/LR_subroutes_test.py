@@ -3,6 +3,9 @@ from pyspark.ml.regression import LinearRegressionModel
 from pyspark.ml.evaluation import RegressionEvaluator
 from pyspark.ml.feature import VectorAssembler, StandardScalerModel
 from pyspark.sql.functions import abs, asc
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
 import sys
 
 def handle_error(e):
@@ -12,7 +15,6 @@ def handle_error(e):
 if __name__ == '__main__':    
     try:
         spark = SparkSession.builder \
-        .appName("PySpark Linear Regression")\
         .config("spark.executor.instances", "4")\
         .config("spark.executor.cores", "1")\
         .config("spark.driver.extraJavaOptions", "-XX:-UseGCOverheadLimit") \
@@ -60,6 +62,56 @@ if __name__ == '__main__':
         evaluator = RegressionEvaluator(labelCol="label", predictionCol="prediction", metricName="r2")
         r2 = evaluator.evaluate(predictions)
         print("R-squared (R2) = {:.4f}\n".format(r2))
+
+        # Unscaled data and set X_test, y_pred, and y_test
+        unscaled_test_data = test_data.select("features", "label").toPandas()
+
+        X_test = np.array(unscaled_test_data["features"].apply(lambda x: x[2]).tolist())
+        y_test = unscaled_test_data["label"].values
+
+        predictions_pd = predictions.select("prediction").toPandas()
+        y_pred = predictions_pd["prediction"].values
+
+
+        unique_x = np.unique(X_test)
+        averages = []
+        for x in unique_x:
+            indices = np.where(X_test == x)
+            avg_y_pred = np.mean(y_pred[indices])
+            avg_y_test = np.mean(y_test[indices])
+            averages.append((x, avg_y_pred, avg_y_test))
+
+        averages = np.array(averages)
+
+        # Plotting the averaged points
+        plt.scatter(averages[:, 0], averages[:, 1], c='b', label='Average Predicted Time', s=10, alpha=0.5)
+        plt.scatter(averages[:, 0], averages[:, 2], c='r', label='Average Actual Time', s=5, alpha=0.5)
+
+        # Adding lines connecting the points
+        for i in range(len(averages)):
+            x = averages[i, 0]
+            y_pred = averages[i, 1]
+            y_test = averages[i, 2]
+            plt.plot([x, x], [y_pred, y_test], c='black', linewidth=0.5)
+
+        plt.xlabel('Distance')
+        plt.ylabel('Arrive Time')
+        plt.legend()
+        plt.title('Distance vs Average Predicted and Actual Arrive Time')
+
+        plt.show()
+        plt.clf()
+       
+        absolute_difference = np.abs(averages[:, 1] - averages[:, 2])
+
+        # Plotting the averaged points
+        plt.scatter(averages[:, 0], absolute_difference, c='g', label='Absolute Difference', s=10, alpha=0.5)
+        plt.xlabel('Distance')
+        plt.ylabel('Absolute Difference')
+        plt.legend()
+        plt.title('Distance vs Absolute Difference between Average Predicted and Actual Value')
+
+        plt.show()
 
     except Exception as e:
         handle_error(e)

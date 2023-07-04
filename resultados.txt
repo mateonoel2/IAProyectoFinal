@@ -1,0 +1,63 @@
+LR subroutes:
+100.00% of data is within a range of 600 seconds                                
+99.98% of data is within a range of 300 seconds
+95.47% of data is within a range of 60 seconds
+76.24% of data is within a range of 30 seconds
+Root Mean Squared Error (RMSE) = 30.8276                                        
+R-squared (R2) = 0.9999
+
+GBT subroutes:
+98.03% of data is within a range of 600 seconds                                 
+91.90% of data is within a range of 300 seconds                                 
+43.18% of data is within a range of 60 seconds                                  
+22.39% of data is within a range of 30 seconds                                  
+Root Mean Squared Error (RMSE) = 175.7534                                       
+R-squared (R2) = 0.9974    
+
+RNN subroutes:
+100.00% of data is within a range of 600 seconds
+99.98% of data is within a range of 300 seconds
+95.72% of data is within a range of 60 seconds
+76.27% of data is within a range of 30 seconds
+R-squared: 0.9999
+RMSE: 30.3562
+
+ANN subroutes:
+100.00% of data is within a range of 600 seconds
+99.98% of data is within a range of 300 seconds
+95.81% of data is within a range of 60 seconds
+74.57% of data is within a range of 30 seconds
+R-squared: 0.9999
+RMSE: 31.0038
+
+LR routes:
+35.38% of data is within a range of 600 seconds                                 
+17.20% of data is within a range of 300 seconds
+3.38% of data is within a range of 60 seconds
+1.69% of data is within a range of 30 seconds
+Root Mean Squared Error (RMSE) = 2174.1705                                      
+R-squared (R2) = 0.5982
+
+GBT routes:
+86.74% of data is within a range of 600 seconds                                 
+64.52% of data is within a range of 300 seconds                                 
+16.57% of data is within a range of 60 seconds                                  
+8.35% of data is within a range of 30 seconds                                   
+Root Mean Squared Error (RMSE) = 870.9205                                       
+R-squared (R2) = 0.9355   
+
+RNN routes:
+92.63% of data is within a range of 600 seconds
+79.88% of data is within a range of 300 seconds
+29.02% of data is within a range of 60 seconds
+15.24% of data is within a range of 30 seconds
+R-squared: 0.9363
+RMSE: 865.7873
+
+ANN routes:
+95.80% of data is within a range of 600 seconds
+82.99% of data is within a range of 300 seconds
+26.30% of data is within a range of 60 seconds
+13.08% of data is within a range of 30 seconds
+R-squared: 0.9787
+RMSE: 500.3673
