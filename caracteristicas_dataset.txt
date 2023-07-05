@@ -1,0 +1,9 @@
+Number of vehicles: 5647
+Number of stops: 14834
+Number of first_stops: 14063
+Minimum distance: 100
+Maximum distance: 2000
+Maximum total distance: 39920 
+Minimum exit time: 24614 (6:50:14)
+Maximum arrive time: 39571 (10:59:31)
+Number of rows: 4512672
